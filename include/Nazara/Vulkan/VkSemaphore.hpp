@@ -25,7 +25,11 @@ namespace Nz
 				~Semaphore() = default;
 
 				using DeviceObject::Create;
+<<<<<<< HEAD
 				inline bool Create(DeviceObject device, VkSemaphoreCreateFlags flags = 0, const VkAllocationCallbacks* allocator = nullptr);
+=======
+				inline bool Create(const DeviceHandle& device, VkSemaphoreCreateFlags flags = 0, const VkAllocationCallbacks* allocator = nullptr);
+>>>>>>> Vulkan: Make device objects take a DeviceHandle at creation
 
 				Semaphore& operator=(const Semaphore&) = delete;
 				Semaphore& operator=(Semaphore&&) = delete;
