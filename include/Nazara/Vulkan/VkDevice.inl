@@ -16,9 +16,13 @@ namespace Nz
 		m_instance(instance),
 		m_device(VK_NULL_HANDLE),
 <<<<<<< HEAD
+<<<<<<< HEAD
 		m_physicalDevice(VK_NULL_HANDLE)
 =======
 >>>>>>> Vulkan: Make device objects take a DeviceHandle at creation
+=======
+		m_physicalDevice(VK_NULL_HANDLE)
+>>>>>>> Vulkan/Device: Add GetPhysicalDevice()
 		{
 		}
 
@@ -36,9 +40,13 @@ namespace Nz
 
 				m_device = VK_NULL_HANDLE;
 <<<<<<< HEAD
+<<<<<<< HEAD
 				m_physicalDevice = VK_NULL_HANDLE;
 =======
 >>>>>>> Vulkan: Make device objects take a DeviceHandle at creation
+=======
+				m_physicalDevice = VK_NULL_HANDLE;
+>>>>>>> Vulkan/Device: Add GetPhysicalDevice()
 			}
 		}
 
