@@ -28,6 +28,11 @@ namespace Nz
 		return s_instance;
 	}
 
+	const std::vector<Vk::PhysicalDevice>& Vulkan::GetPhysicalDevices()
+	{
+		return s_physDevices;
+	}
+
 	bool Vulkan::Initialize()
 >>>>>>> Vulkan/Core: Add loader and instance initialization:src/Nazara/Vulkan/Vulkan.cpp
 	{
@@ -154,6 +159,41 @@ namespace Nz
 		if (!s_instance.Create(instanceInfo))
 		{
 			NazaraError("Failed to create instance");
+			return false;
+		}
+
+		std::vector<VkPhysicalDevice> physDevices;
+		if (!s_instance.EnumeratePhysicalDevices(&physDevices))
+		{
+			NazaraError("Failed to enumerate physical devices");
+			return false;
+		}
+
+		s_physDevices.reserve(physDevices.size());
+
+		for (std::size_t i = 0; i < physDevices.size(); ++i)
+		{
+			VkPhysicalDevice physDevice = physDevices[i];
+
+			Vk::PhysicalDevice deviceInfo;
+			if (!s_instance.GetPhysicalDeviceQueueFamilyProperties(physDevice, &deviceInfo.queues))
+			{
+				NazaraWarning("Failed to query physical device queue family properties");
+				continue;
+			}
+
+			deviceInfo.device = physDevice;
+
+			s_instance.GetPhysicalDeviceFeatures(physDevice, &deviceInfo.features);
+			s_instance.GetPhysicalDeviceMemoryProperties(physDevice, &deviceInfo.memoryProperties);
+			s_instance.GetPhysicalDeviceProperties(physDevice, &deviceInfo.properties);
+
+			s_physDevices.emplace_back(std::move(deviceInfo));
+		}
+
+		if (s_physDevices.empty())
+		{
+			NazaraError("No valid physical device found");
 			return false;
 		}
 
@@ -358,7 +398,11 @@ namespace Nz
 =======
 =======
 	std::list<Vk::Device> Vulkan::s_devices;
+<<<<<<< HEAD:NazaraModuleTemplate/src/Nazara/ModuleName/ModuleName.cpp
 >>>>>>> Vulkan: Add CreateDevice/SelectDevice functions:src/Nazara/Vulkan/Vulkan.cpp
+=======
+	std::vector<Vk::PhysicalDevice> Vulkan::s_physDevices;
+>>>>>>> Vulkan: Add physical device retrieval:src/Nazara/Vulkan/Vulkan.cpp
 	Vk::Instance Vulkan::s_instance;
 	ParameterList Vulkan::s_initializationParameters;
 	unsigned int Vulkan::s_moduleReferenceCounter = 0;	
