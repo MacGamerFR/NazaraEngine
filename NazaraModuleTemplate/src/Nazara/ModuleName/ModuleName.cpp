@@ -33,6 +33,21 @@ namespace Nz
 		return s_physDevices;
 	}
 
+	const Vk::PhysicalDevice& Vulkan::GetPhysicalDeviceInfo(VkPhysicalDevice physDevice)
+	{
+		for (const Vk::PhysicalDevice& info : s_physDevices)
+		{
+			if (info.device == physDevice)
+				return info;
+		}
+
+		// This cannot happen if physDevice is valid, as we retrieved every physical device
+		NazaraInternalError("Invalid physical device: " + String::Pointer(physDevice));
+
+		static Vk::PhysicalDevice dummy;
+		return dummy;
+	}
+
 	bool Vulkan::Initialize()
 >>>>>>> Vulkan/Core: Add loader and instance initialization:src/Nazara/Vulkan/Vulkan.cpp
 	{
