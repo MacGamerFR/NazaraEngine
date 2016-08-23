@@ -4,10 +4,10 @@
 
 #include <Nazara/Renderer/Renderer.hpp>
 #include <Nazara/Core/CallOnExit.hpp>
-#include <Nazara/Core/Color.hpp>
-#include <Nazara/Core/Error.hpp>
-#include <Nazara/Core/ErrorFlags.hpp>
+#include <Nazara/Core/Directory.hpp>
+#include <Nazara/Core/DynLib.hpp>
 #include <Nazara/Core/Log.hpp>
+<<<<<<< HEAD
 #include <Nazara/Core/Signal.hpp>
 #include <Nazara/Core/StackArray.hpp>
 #include <Nazara/Renderer/Config.hpp>
@@ -1199,67 +1199,64 @@ namespace Nz
 	}
 
 	void Renderer::SetStencilZFailOperation(StencilOperation zfailOperation, FaceSide faceSide)
+=======
+#include <Nazara/Utility/Utility.hpp>
+#include <Nazara/Renderer/Debug.hpp>
+
+namespace Nz
+{
+	bool Renderer::Initialize()
+>>>>>>> Add new Renderer architecture (far from complete)
 	{
-		#ifdef NAZARA_DEBUG
-		if (zfailOperation > StencilOperation_Max)
+		if (s_moduleReferenceCounter > 0)
 		{
-			NazaraError("Stencil pass operation out of enum");
-			return;
+			s_moduleReferenceCounter++;
+			return true; // Already initialized
 		}
 
-		if (faceSide > FaceSide_Max)
+		// Initialize module dependencies
+		if (!Utility::Initialize())
 		{
-			NazaraError("Face side out of enum");
-			return;
-		}
-		#endif
-
-		switch (faceSide)
-		{
-			case FaceSide_Back:
-				s_states.stencilDepthFail.back = zfailOperation;
-				break;
-
-			case FaceSide_Front:
-				s_states.stencilDepthFail.front = zfailOperation;
-				break;
-
-			case FaceSide_FrontAndBack:
-				s_states.stencilDepthFail.back = zfailOperation;
-				s_states.stencilDepthFail.front = zfailOperation;
-				break;
-		}
-	}
-
-	bool Renderer::SetTarget(const RenderTarget* target)
-	{
-		if (s_target == target)
-			return true;
-
-		if (s_target)
-		{
-			if (!s_target->HasContext())
-				s_target->Desactivate();
-
-			s_target = nullptr;
+			NazaraError("Failed to initialize Utility module");
+			return false;
 		}
 
-		if (target)
+		s_moduleReferenceCounter++;
+
+		CallOnExit onExit(Renderer::Uninitialize);
+
+		NazaraDebug("Searching for renderer implementation");
+
+		Directory dir(".");
+		dir.SetPattern("Nazara?*Renderer*" NAZARA_DYNLIB_EXTENSION); //< Ex: NazaraVulkanRenderer.dll
+
+		if (!dir.Open())
 		{
-			#if NAZARA_RENDERER_SAFE
-			if (!target->IsRenderable())
+			NazaraError("Failed to open directory");
+			return false;
+		}
+
+		DynLib chosenLib;
+		std::unique_ptr<RendererImpl> chosenImpl;
+		while (dir.NextResult())
+		{
+			NazaraDebug("Trying to load " + dir.GetResultName());
+
+			DynLib implLib;
+			if (!implLib.Load(dir.GetResultPath()))
 			{
-				NazaraError("Target not renderable");
-				return false;
-			}
-			#endif
-
-			if (!target->Activate())
-			{
-				NazaraError("Failed to activate target");
-				return false;
+				NazaraWarning("Failed to load " + dir.GetResultName() + ": " + implLib.GetLastError());
+				continue;
 			}
 
+			CreateRendererImplFunc createRenderer = reinterpret_cast<CreateRendererImplFunc>(implLib.GetSymbol("NazaraRenderer_Instantiate"));
+			if (!createRenderer)
+			{
+				NazaraDebug("Skipped " + dir.GetResultName() + " (symbol not found)");
+				continue;
+			}
+
+<<<<<<< HEAD
 			s_target = target;
 		}
 
@@ -1283,11 +1280,16 @@ namespace Nz
 			s_textureUnits[unit].texture = texture;
 
 			if (texture)
+=======
+			std::unique_ptr<RendererImpl> impl(createRenderer());
+			if (!impl || !impl->Prepare(Nz::ParameterList()))
+>>>>>>> Add new Renderer architecture (far from complete)
 			{
-				if (s_textureUnits[unit].sampler.UseMipmaps(texture->HasMipmaps()))
-					s_textureUnits[unit].samplerUpdated = false;
+				NazaraError("Failed to create renderer implementation");
+				continue;
 			}
 
+<<<<<<< HEAD
 			s_dirtyTextureUnits.push_back(unit);
 			s_updateFlags |= Update_Textures;
 		}
@@ -1302,17 +1304,24 @@ namespace Nz
 			return;
 		}
 		#endif
+=======
+			NazaraDebug("Loaded " + impl->QueryAPIString());
+>>>>>>> Add new Renderer architecture (far from complete)
 
-		s_textureUnits[unit].sampler = sampler;
-		s_textureUnits[unit].samplerUpdated = false;
+			if (!chosenImpl || impl->IsBetterThan(chosenImpl.get()))
+			{
+				if (chosenImpl)
+					NazaraDebug("Choose " + impl->QueryAPIString() + " over " + chosenImpl->QueryAPIString());
 
-		if (s_textureUnits[unit].texture)
-			s_textureUnits[unit].sampler.UseMipmaps(s_textureUnits[unit].texture->HasMipmaps());
+				chosenLib = std::move(implLib);
+				chosenImpl = std::move(impl);
+			}
+		}
 
-		s_dirtyTextureUnits.push_back(unit);
-		s_updateFlags |= Update_Textures;
-	}
+		s_rendererImpl = std::move(chosenImpl);
+		s_rendererLib = std::move(chosenLib);
 
+<<<<<<< HEAD
 	void Renderer::SetVertexBuffer(const VertexBuffer* vertexBuffer)
 	{
 		if (s_vertexBuffer != vertexBuffer)
@@ -1321,59 +1330,34 @@ namespace Nz
 			s_updateFlags |= Update_VAO;
 		}
 	}
+=======
+		NazaraDebug("Using " + s_rendererImpl->QueryAPIString() + " as renderer");
 
-	void Renderer::SetViewport(const Recti& viewport)
-	{
-		OpenGL::BindViewport(viewport);
+		onExit.Reset();
+>>>>>>> Add new Renderer architecture (far from complete)
+
+		NazaraNotice("Initialized: Renderer module");
+		return true;
 	}
 
 	void Renderer::Uninitialize()
 	{
 		if (s_moduleReferenceCounter != 1)
 		{
-			// Le module est soit encore utilisé, soit pas initialisé
+			// Either the module is not initialized, either it was initialized multiple times
 			if (s_moduleReferenceCounter > 1)
 				s_moduleReferenceCounter--;
 
 			return;
 		}
 
-		// Libération du module
 		s_moduleReferenceCounter = 0;
 
-		ShaderLibrary::Unregister("DebugSimple");
-
-		UberShader::Uninitialize();
-		TextureSampler::Uninitialize();
-		Texture::Uninitialize();
-		Shader::Uninitialize();
-		RenderBuffer::Uninitialize();
-		DebugDrawer::Uninitialize();
-
-		s_textureUnits.clear();
-
-		// Libération des buffers
-		s_fullscreenQuadBuffer.Reset();
-		s_instanceBuffer.Reset();
-
-		// Libération des VAOs
-		for (auto& pair : s_vaos)
-		{
-			const Context* context = pair.first;
-			const Context_Entry& contextEntry = pair.second;
-
-			for (auto& pair2 : contextEntry.vaoMap)
-			{
-				const VAO_Entry& entry = pair2.second;
-				OpenGL::DeleteVertexArray(context, entry.vao);
-			}
-		}
-		s_vaos.clear();
-
-		OpenGL::Uninitialize();
+		// Uninitialize module here
 
 		NazaraNotice("Uninitialized: Renderer module");
 
+<<<<<<< HEAD
 		// Libération des dépendances
 		Platform::Uninitialize();
 	}
@@ -2125,5 +2109,13 @@ namespace Nz
 		}
 	}
 
+=======
+		// Free module dependencies
+		Utility::Uninitialize();
+	}
+
+	DynLib Renderer::s_rendererLib;
+	std::unique_ptr<RendererImpl> Renderer::s_rendererImpl;
+>>>>>>> Add new Renderer architecture (far from complete)
 	unsigned int Renderer::s_moduleReferenceCounter = 0;
 }

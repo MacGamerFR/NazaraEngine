@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Copyright (C) 2017 Jérôme Leclercq
+=======
+// Copyright (C) 2016 Jérôme Leclercq
+>>>>>>> Add new Renderer architecture (far from complete)
 // This file is part of the "Nazara Engine - Renderer module"
 // For conditions of distribution and use, see copyright notice in Config.hpp
 
@@ -7,6 +11,7 @@
 #ifndef NAZARA_RENDERER_HPP
 #define NAZARA_RENDERER_HPP
 
+<<<<<<< HEAD
 #include <Nazara/Prerequisites.hpp>
 #include <Nazara/Math/Matrix4.hpp>
 #include <Nazara/Math/Rect.hpp>
@@ -28,54 +33,26 @@ namespace Nz
 	class VertexBuffer;
 	class VertexDeclaration;
 
+=======
+#include <Nazara/Prerequesites.hpp>
+#include <Nazara/Core/DynLib.hpp>
+#include <Nazara/Renderer/Config.hpp>
+#include <Nazara/Renderer/RendererImpl.hpp>
+
+namespace Nz
+{
+>>>>>>> Add new Renderer architecture (far from complete)
 	class NAZARA_RENDERER_API Renderer
 	{
-		friend Texture;
-
 		public:
-			using DrawCall = void (*)(PrimitiveMode, unsigned int, unsigned int);
-			using DrawCallInstanced = void (*)(unsigned int, PrimitiveMode, unsigned int, unsigned int);
-
 			Renderer() = delete;
 			~Renderer() = delete;
-
-			static void BeginCondition(const GpuQuery& query, GpuQueryCondition condition);
-
-			static void Clear(UInt32 flags = RendererBuffer_Color | RendererBuffer_Depth);
-
-			static void DrawFullscreenQuad();
-			static void DrawIndexedPrimitives(PrimitiveMode mode, unsigned int firstIndex, unsigned int indexCount);
-			static void DrawIndexedPrimitivesInstanced(unsigned int instanceCount, PrimitiveMode mode, unsigned int firstIndex, unsigned int indexCount);
-			static void DrawPrimitives(PrimitiveMode mode, unsigned int firstVertex, unsigned int vertexCount);
-			static void DrawPrimitivesInstanced(unsigned int instanceCount, PrimitiveMode mode, unsigned int firstVertex, unsigned int vertexCount);
-
-			static void Enable(RendererParameter parameter, bool enable);
-
-			static void EndCondition();
-
-			static void Flush();
-
-			static RendererComparison GetDepthFunc();
-			static VertexBuffer* GetInstanceBuffer();
-			static float GetLineWidth();
-			static Matrix4f GetMatrix(MatrixType type);
-			static UInt8 GetMaxAnisotropyLevel();
-			static unsigned int GetMaxColorAttachments();
-			static unsigned int GetMaxRenderTargets();
-			static unsigned int GetMaxTextureSize();
-			static unsigned int GetMaxTextureUnits();
-			static unsigned int GetMaxVertexAttribs();
-			static float GetPointSize();
-			static const RenderStates& GetRenderStates();
-			static Recti GetScissorRect();
-			static const Shader* GetShader();
-			static const RenderTarget* GetTarget();
-			static Recti GetViewport();
-
-			static bool HasCapability(RendererCap capability);
+			
+			static inline RendererImpl* GetRendererImpl();
 
 			static bool Initialize();
 
+<<<<<<< HEAD
 			static bool IsComponentTypeSupported(ComponentType type);
 			static bool IsEnabled(RendererParameter parameter);
 			static bool IsInitialized();
@@ -106,10 +83,14 @@ namespace Nz
 			static void SetTextureSampler(unsigned int textureUnit, const TextureSampler& sampler);
 			static void SetVertexBuffer(const VertexBuffer* vertexBuffer);
 			static void SetViewport(const Recti& viewport);
+=======
+			static inline bool IsInitialized();
+>>>>>>> Add new Renderer architecture (far from complete)
 
 			static void Uninitialize();
 
 		private:
+<<<<<<< HEAD
 			static void EnableInstancing(bool instancing);
 			static bool EnsureStateUpdate();
 			static bool GenerateDebugShader();
@@ -121,8 +102,14 @@ namespace Nz
 			static void OnVertexDeclarationRelease(const VertexDeclaration* vertexDeclaration);
 			static void UpdateMatrix(MatrixType type);
 
+=======
+			static DynLib s_rendererLib;
+			static std::unique_ptr<RendererImpl> s_rendererImpl;
+>>>>>>> Add new Renderer architecture (far from complete)
 			static unsigned int s_moduleReferenceCounter;
 	};
 }
+
+#include <Nazara/Renderer/Renderer.inl>
 
 #endif // NAZARA_RENDERER_HPP
