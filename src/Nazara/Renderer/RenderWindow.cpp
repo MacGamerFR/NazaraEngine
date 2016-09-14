@@ -1,18 +1,16 @@
 // Copyright (C) 2017 Jérôme Leclercq
 // This file is part of the "Nazara Engine - Renderer module"
 // For conditions of distribution and use, see copyright notice in Config.hpp
-/*
+
 #include <Nazara/Renderer/RenderWindow.hpp>
 #include <Nazara/Core/Error.hpp>
-#include <Nazara/Core/ErrorFlags.hpp>
 #include <Nazara/Core/Thread.hpp>
-#include <Nazara/Renderer/Context.hpp>
-#include <Nazara/Renderer/OpenGL.hpp>
 #include <Nazara/Renderer/Renderer.hpp>
 #include <Nazara/Renderer/Debug.hpp>
 
 namespace Nz
 {
+<<<<<<< HEAD
 	RenderWindow::RenderWindow(VideoMode mode, const String& title, WindowStyleFlags style, const ContextParameters& parameters) :
 	RenderTarget(), Window()
 	{
@@ -27,12 +25,15 @@ namespace Nz
 		Create(handle, parameters);
 	}
 
+=======
+>>>>>>> VulkanRenderer: Add RenderWindow wrapper
 	RenderWindow::~RenderWindow()
 	{
 		// Nécessaire si Window::Destroy est appelé par son destructeur
 		OnWindowDestroy();
 	}
 
+<<<<<<< HEAD
 	bool RenderWindow::CopyToImage(AbstractImage* image, const Vector3ui& dstPos) const
 	{
 		#if NAZARA_RENDERER_SAFE
@@ -131,6 +132,8 @@ namespace Nz
 		return Window::Create(handle);
 	}
 
+=======
+>>>>>>> VulkanRenderer: Add RenderWindow wrapper
 	void RenderWindow::Display()
 	{
 		if (m_framerateLimit > 0)
@@ -141,13 +144,11 @@ namespace Nz
 
 			m_clock.Restart();
 		}
-
-		if (m_context && m_parameters.doubleBuffered)
-			m_context->SwapBuffers();
 	}
 
 	void RenderWindow::EnableVerticalSync(bool enabled)
 	{
+<<<<<<< HEAD
 		if (m_context)
 		{
 			if (!m_context->SetActive(true))
@@ -229,36 +230,21 @@ namespace Nz
 	void RenderWindow::EnsureTargetUpdated() const
 	{
 		// Rien à faire
+=======
+		///TODO
+>>>>>>> VulkanRenderer: Add RenderWindow wrapper
 	}
 
 	bool RenderWindow::OnWindowCreated()
 	{
-		m_parameters.doubleBuffered = true;
-		m_parameters.window = GetHandle();
-
-		std::unique_ptr<Context> context(new Context);
-		if (!context->Create(m_parameters))
+		auto impl = Renderer::GetRendererImpl()->CreateRenderWindowImpl();
+		if (!impl->Create(GetHandle(), Vector2ui(GetWidth(), GetHeight()), m_parameters))
 		{
-			NazaraError("Failed to create context");
+			NazaraError("Failed to create render window implementation: " + Error::GetLastError());
 			return false;
 		}
 
-		m_context = context.release();
-
-		if (!SetActive(true)) // Les fenêtres s'activent à la création
-			NazaraWarning("Failed to activate window");
-
-		EnableVerticalSync(false);
-
-		Vector2ui size = GetSize();
-
-		// Le scissorBox/viewport (à la création) est de la taille de la fenêtre
-		// https://www.opengl.org/sdk/docs/man/xhtml/glGet.xml
-		OpenGL::SetScissorBox(Recti(0, 0, size.x, size.y));
-		OpenGL::SetViewport(Recti(0, 0, size.x, size.y));
-
-		OnRenderTargetParametersChange(this);
-		OnRenderTargetSizeChange(this);
+		m_impl = std::move(impl);
 
 		m_clock.Restart();
 
@@ -267,19 +253,10 @@ namespace Nz
 
 	void RenderWindow::OnWindowDestroy()
 	{
-		if (m_context)
-		{
-			if (IsActive())
-				Renderer::SetTarget(nullptr);
-
-			delete m_context;
-			m_context = nullptr;
-		}
+		m_impl.reset();
 	}
 
 	void RenderWindow::OnWindowResized()
 	{
-		OnRenderTargetSizeChange(this);
 	}
 }
-*/

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // This file was automatically generated
+=======
+// This file was automatically generated on 15 Sep 2016 at 00:43:26
+>>>>>>> VulkanRenderer: Add RenderWindow wrapper
 
 /*
 	Nazara Engine - Renderer module
@@ -30,10 +34,8 @@
 #define NAZARA_GLOBAL_RENDERER_HPP
 
 #include <Nazara/Renderer/Config.hpp>
-#include <Nazara/Renderer/Context.hpp>
-#include <Nazara/Renderer/ContextParameters.hpp>
-#include <Nazara/Renderer/DebugDrawer.hpp>
 #include <Nazara/Renderer/Enums.hpp>
+<<<<<<< HEAD
 #include <Nazara/Renderer/GlslWriter.hpp>
 #include <Nazara/Renderer/GpuQuery.hpp>
 #include <Nazara/Renderer/OpenGL.hpp>
@@ -56,5 +58,13 @@
 #include <Nazara/Renderer/UberShaderInstance.hpp>
 #include <Nazara/Renderer/UberShaderInstancePreprocessor.hpp>
 #include <Nazara/Renderer/UberShaderPreprocessor.hpp>
+=======
+#include <Nazara/Renderer/RenderDevice.hpp>
+#include <Nazara/Renderer/Renderer.hpp>
+#include <Nazara/Renderer/RendererImpl.hpp>
+#include <Nazara/Renderer/RenderWindow.hpp>
+#include <Nazara/Renderer/RenderWindowImpl.hpp>
+#include <Nazara/Renderer/RenderWindowParameters.hpp>
+>>>>>>> VulkanRenderer: Add RenderWindow wrapper
 
 #endif // NAZARA_GLOBAL_RENDERER_HPP
