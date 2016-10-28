@@ -9,6 +9,7 @@
 #include <Nazara/Core/Log.hpp>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <Nazara/Core/Signal.hpp>
 #include <Nazara/Core/StackArray.hpp>
 #include <Nazara/Renderer/Config.hpp>
@@ -1202,6 +1203,9 @@ namespace Nz
 	void Renderer::SetStencilZFailOperation(StencilOperation zfailOperation, FaceSide faceSide)
 =======
 =======
+=======
+#include <Nazara/Utility/AbstractBuffer.hpp>
+>>>>>>> Renderer/Renderer: Fix missing include
 #include <Nazara/Utility/Buffer.hpp>
 >>>>>>> Renderer: Add support for hardware buffers
 #include <Nazara/Utility/Utility.hpp>
