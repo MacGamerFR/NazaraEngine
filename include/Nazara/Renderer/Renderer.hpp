@@ -87,9 +87,12 @@ namespace Nz
 			static inline bool IsInitialized();
 >>>>>>> Add new Renderer architecture (far from complete)
 
+			static inline void SetParameters(const ParameterList& parameters);
+
 			static void Uninitialize();
 
 		private:
+<<<<<<< HEAD
 <<<<<<< HEAD
 			static void EnableInstancing(bool instancing);
 			static bool EnsureStateUpdate();
@@ -106,6 +109,11 @@ namespace Nz
 			static DynLib s_rendererLib;
 			static std::unique_ptr<RendererImpl> s_rendererImpl;
 >>>>>>> Add new Renderer architecture (far from complete)
+=======
+			static std::unique_ptr<RendererImpl> s_rendererImpl;
+			static DynLib s_rendererLib;
+			static ParameterList s_initializationParameters;
+>>>>>>> Renderer: Allow to pass custom parameters
 			static unsigned int s_moduleReferenceCounter;
 	};
 }

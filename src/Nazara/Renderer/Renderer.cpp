@@ -1282,8 +1282,12 @@ namespace Nz
 			if (texture)
 =======
 			std::unique_ptr<RendererImpl> impl(createRenderer());
+<<<<<<< HEAD
 			if (!impl || !impl->Prepare(Nz::ParameterList()))
 >>>>>>> Add new Renderer architecture (far from complete)
+=======
+			if (!impl || !impl->Prepare(s_initializationParameters))
+>>>>>>> Renderer: Allow to pass custom parameters
 			{
 				NazaraError("Failed to create renderer implementation");
 				continue;
@@ -2116,8 +2120,12 @@ namespace Nz
 		Utility::Uninitialize();
 	}
 
-	DynLib Renderer::s_rendererLib;
 	std::unique_ptr<RendererImpl> Renderer::s_rendererImpl;
+<<<<<<< HEAD
 >>>>>>> Add new Renderer architecture (far from complete)
+=======
+	DynLib Renderer::s_rendererLib;
+	ParameterList Renderer::s_initializationParameters;
+>>>>>>> Renderer: Allow to pass custom parameters
 	unsigned int Renderer::s_moduleReferenceCounter = 0;
 }
