@@ -38,10 +38,17 @@ namespace Nz
 #include <Nazara/Core/DynLib.hpp>
 #include <Nazara/Renderer/Config.hpp>
 #include <Nazara/Renderer/RendererImpl.hpp>
+#include <Nazara/Utility/Enums.hpp>
 
 namespace Nz
 {
+<<<<<<< HEAD
 >>>>>>> Add new Renderer architecture (far from complete)
+=======
+	class AbstractBuffer;
+	class Buffer;
+
+>>>>>>> Renderer: Add support for hardware buffers
 	class NAZARA_RENDERER_API Renderer
 	{
 		public:
@@ -94,6 +101,7 @@ namespace Nz
 		private:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			static void EnableInstancing(bool instancing);
 			static bool EnsureStateUpdate();
 			static bool GenerateDebugShader();
@@ -110,6 +118,10 @@ namespace Nz
 			static std::unique_ptr<RendererImpl> s_rendererImpl;
 >>>>>>> Add new Renderer architecture (far from complete)
 =======
+=======
+			static AbstractBuffer* CreateHardwareBufferImpl(Buffer* parent, BufferType type);
+
+>>>>>>> Renderer: Add support for hardware buffers
 			static std::unique_ptr<RendererImpl> s_rendererImpl;
 			static DynLib s_rendererLib;
 			static ParameterList s_initializationParameters;

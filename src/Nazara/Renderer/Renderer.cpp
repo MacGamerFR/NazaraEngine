@@ -8,6 +8,7 @@
 #include <Nazara/Core/DynLib.hpp>
 #include <Nazara/Core/Log.hpp>
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <Nazara/Core/Signal.hpp>
 #include <Nazara/Core/StackArray.hpp>
 #include <Nazara/Renderer/Config.hpp>
@@ -1200,6 +1201,9 @@ namespace Nz
 
 	void Renderer::SetStencilZFailOperation(StencilOperation zfailOperation, FaceSide faceSide)
 =======
+=======
+#include <Nazara/Utility/Buffer.hpp>
+>>>>>>> Renderer: Add support for hardware buffers
 #include <Nazara/Utility/Utility.hpp>
 #include <Nazara/Renderer/Debug.hpp>
 
@@ -1337,6 +1341,8 @@ namespace Nz
 =======
 		NazaraDebug("Using " + s_rendererImpl->QueryAPIString() + " as renderer");
 
+		Buffer::SetBufferFactory(DataStorage_Hardware, CreateHardwareBufferImpl);
+
 		onExit.Reset();
 >>>>>>> Add new Renderer architecture (far from complete)
 
@@ -1358,6 +1364,8 @@ namespace Nz
 		s_moduleReferenceCounter = 0;
 
 		// Uninitialize module here
+		Buffer::SetBufferFactory(DataStorage_Hardware, nullptr);
+
 		s_rendererImpl.reset();
 		s_rendererLib.Unload();
 
@@ -2118,6 +2126,11 @@ namespace Nz
 =======
 		// Free module dependencies
 		Utility::Uninitialize();
+	}
+
+	AbstractBuffer* Renderer::CreateHardwareBufferImpl(Buffer * parent, BufferType type)
+	{
+		return s_rendererImpl->CreateHardwareBufferImpl(parent, type).release();
 	}
 
 	std::unique_ptr<RendererImpl> Renderer::s_rendererImpl;
