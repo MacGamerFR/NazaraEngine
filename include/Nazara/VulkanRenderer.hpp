@@ -30,6 +30,7 @@
 #define NAZARA_GLOBAL_VULKANRENDERER_HPP
 
 #include <Nazara/VulkanRenderer/Config.hpp>
+<<<<<<< HEAD
 #include <Nazara/VulkanRenderer/VkBuffer.hpp>
 #include <Nazara/VulkanRenderer/VkCommandBuffer.hpp>
 #include <Nazara/VulkanRenderer/VkCommandPool.hpp>
@@ -50,13 +51,14 @@
 #include <Nazara/VulkanRenderer/VkPipelineLayout.hpp>
 #include <Nazara/VulkanRenderer/VkQueue.hpp>
 #include <Nazara/VulkanRenderer/VkRenderPass.hpp>
+=======
+#include <Nazara/VulkanRenderer/Utils.hpp>
+>>>>>>> Regenerate Vulkan global include; add wrapper global include
 #include <Nazara/VulkanRenderer/VkRenderTarget.hpp>
 #include <Nazara/VulkanRenderer/VkRenderWindow.hpp>
-#include <Nazara/VulkanRenderer/VkSemaphore.hpp>
-#include <Nazara/VulkanRenderer/VkShaderModule.hpp>
-#include <Nazara/VulkanRenderer/VkSurface.hpp>
-#include <Nazara/VulkanRenderer/VkSwapchain.hpp>
 #include <Nazara/VulkanRenderer/Vulkan.hpp>
+#include <Nazara/VulkanRenderer/VulkanBuffer.hpp>
 #include <Nazara/VulkanRenderer/VulkanRenderer.hpp>
+#include <Nazara/VulkanRenderer/Wrapper.hpp>
 
 #endif // NAZARA_GLOBAL_VULKANRENDERER_HPP
