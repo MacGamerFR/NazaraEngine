@@ -17,6 +17,7 @@
 #include <Nazara/Math/Vector3.hpp>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <Nazara/Renderer/Config.hpp>
 #include <Nazara/Renderer/ContextParameters.hpp>
 #include <Nazara/Renderer/RenderTarget.hpp>
@@ -38,6 +39,9 @@ namespace Nz
 			RenderWindow(VideoMode mode, const String& title, WindowStyleFlags style = WindowStyle_Default, const ContextParameters& parameters = ContextParameters());
 			explicit RenderWindow(WindowHandle handle, const ContextParameters& parameters = ContextParameters());
 =======
+=======
+#include <Nazara/Renderer/RenderSurface.hpp>
+>>>>>>> Commit WIP about RenderSurface
 #include <Nazara/Renderer/RenderWindowImpl.hpp>
 #include <Nazara/Renderer/RenderWindowParameters.hpp>
 #include <Nazara/Utility/Window.hpp>
@@ -93,6 +97,7 @@ namespace Nz
 		private:
 			std::unique_ptr<RenderWindowImpl> m_impl;
 			Clock m_clock;
+			std::unique_ptr<RenderSurface> m_surface;
 			RenderWindowParameters m_parameters;
 			unsigned int m_framerateLimit;
 	};
