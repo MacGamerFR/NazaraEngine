@@ -55,6 +55,7 @@ namespace Nz
 			inline RenderWindow();
 			inline RenderWindow(VideoMode mode, const String& title, UInt32 style = WindowStyle_Default, const RenderWindowParameters& parameters = RenderWindowParameters());
 			inline RenderWindow(WindowHandle handle, const RenderWindowParameters& parameters = RenderWindowParameters());
+<<<<<<< HEAD
 >>>>>>> VulkanRenderer: Add RenderWindow wrapper
 			RenderWindow(const RenderWindow&) = delete;
 			RenderWindow(RenderWindow&&) = delete; ///TODO
@@ -68,6 +69,10 @@ namespace Nz
 			bool Create(WindowHandle handle, const ContextParameters& parameters = ContextParameters());
 =======
 			inline bool Create(VideoMode mode, const String& title, UInt32 style = WindowStyle_Default, const RenderWindowParameters& parameters = RenderWindowParameters());
+=======
+
+			inline bool Create(VideoMode mode, const String& title, WindowStyleFlags style = WindowStyle_Default, const RenderWindowParameters& parameters = RenderWindowParameters());
+>>>>>>> Remove unused code
 			inline bool Create(WindowHandle handle, const RenderWindowParameters& parameters = RenderWindowParameters());
 >>>>>>> VulkanRenderer: Add RenderWindow wrapper
 
