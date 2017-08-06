@@ -1330,6 +1330,12 @@ namespace Nz
 			}
 		}
 
+		if (!chosenImpl)
+		{
+			NazaraError("No renderer found");
+			return false;
+		}
+
 		s_rendererImpl = std::move(chosenImpl);
 		s_rendererLib = std::move(chosenLib);
 
