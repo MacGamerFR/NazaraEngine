@@ -1,16 +1,24 @@
+<<<<<<< HEAD
 // Copyright (C) 2017 Jérôme Leclercq
+=======
+// Copyright (C) 2015 Jérôme Leclercq
+>>>>>>> Vulkan/RenderBuffer: WIP
 // This file is part of the "Nazara Engine - Renderer module"
 // For conditions of distribution and use, see copyright notice in Config.hpp
 
 #include <Nazara/Renderer/RenderBuffer.hpp>
+<<<<<<< HEAD
 #include <Nazara/Core/Error.hpp>
 #include <Nazara/Renderer/Context.hpp>
 #include <Nazara/Renderer/OpenGL.hpp>
 #include <Nazara/Utility/PixelFormat.hpp>
+=======
+>>>>>>> Vulkan/RenderBuffer: WIP
 #include <Nazara/Renderer/Debug.hpp>
 
 namespace Nz
 {
+<<<<<<< HEAD
 	RenderBuffer::RenderBuffer() :
 	m_id(0)
 	{
@@ -130,4 +138,16 @@ namespace Nz
 	}
 
 	RenderBufferLibrary::LibraryMap RenderBuffer::s_library;
+=======
+	bool RenderBuffer::Initialize(UInt32 size, BufferUsageFlags usage)
+	{
+		m_softwareBuffer.Initialize(size, usage);
+		return true;
+	}
+
+	DataStorage Nz::RenderBuffer::GetStorage() const
+	{
+		return DataStorage::DataStorage_Hardware;
+	}
+>>>>>>> Vulkan/RenderBuffer: WIP
 }
