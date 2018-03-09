@@ -32,6 +32,7 @@
 #include <Nazara/Utility/VertexBuffer.hpp>
 #include <Nazara/Utility/VertexDeclaration.hpp>
 #include <Nazara/Platform/Platform.hpp>
+<<<<<<< HEAD
 #include <map>
 #include <memory>
 #include <tuple>
@@ -1204,6 +1205,9 @@ namespace Nz
 =======
 =======
 =======
+=======
+#include <Nazara/Renderer/RenderBuffer.hpp>
+>>>>>>> Add buffer support
 #include <Nazara/Utility/AbstractBuffer.hpp>
 >>>>>>> Renderer/Renderer: Fix missing include
 #include <Nazara/Utility/Buffer.hpp>
@@ -2138,9 +2142,9 @@ namespace Nz
 		Utility::Uninitialize();
 	}
 
-	AbstractBuffer* Renderer::CreateHardwareBufferImpl(Buffer * parent, BufferType type)
+	AbstractBuffer* Renderer::CreateHardwareBufferImpl(Buffer* parent, BufferType type)
 	{
-		return s_rendererImpl->CreateHardwareBufferImpl(parent, type).release();
+		return new RenderBuffer(parent, type);
 	}
 
 	std::unique_ptr<RendererImpl> Renderer::s_rendererImpl;

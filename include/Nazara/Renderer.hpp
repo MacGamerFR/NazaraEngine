@@ -40,6 +40,11 @@
 #include <Nazara/Renderer/GpuQuery.hpp>
 #include <Nazara/Renderer/OpenGL.hpp>
 #include <Nazara/Renderer/RenderBuffer.hpp>
+<<<<<<< HEAD
+=======
+#include <Nazara/Renderer/RenderDeviceInfo.hpp>
+#include <Nazara/Renderer/RenderDevice.hpp>
+>>>>>>> Add buffer support
 #include <Nazara/Renderer/Renderer.hpp>
 #include <Nazara/Renderer/RenderPipeline.hpp>
 #include <Nazara/Renderer/RenderStates.hpp>

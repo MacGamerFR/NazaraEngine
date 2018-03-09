@@ -237,15 +237,21 @@ namespace Nz
 
 	bool RenderWindow::OnWindowCreated()
 	{
-		auto surface = Renderer::GetRendererImpl()->CreateRenderSurfaceImpl();
+		RendererImpl* rendererImpl = Renderer::GetRendererImpl();
+		auto surface = rendererImpl->CreateRenderSurfaceImpl();
 		if (!surface->Create(GetHandle()))
 		{
 			NazaraError("Failed to create render surface: " + Error::GetLastError());
 			return false;
 		}
 
+<<<<<<< HEAD
 		auto impl = Renderer::GetRendererImpl()->CreateRenderWindowImpl();
 		if (!impl->Create(surface.get(), Vector2ui(GetWidth(), GetHeight()), m_parameters))
+=======
+		auto impl = rendererImpl->CreateRenderWindowImpl();
+		if (!impl->Create(rendererImpl, surface.get(), GetSize(), m_parameters))
+>>>>>>> Add buffer support
 		{
 			NazaraError("Failed to create render window implementation: " + Error::GetLastError());
 			return false;

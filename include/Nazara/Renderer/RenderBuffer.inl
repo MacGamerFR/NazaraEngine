@@ -6,11 +6,13 @@
 >>>>>>> Vulkan/RenderBuffer: WIP
 // For conditions of distribution and use, see copyright notice in Config.hpp
 
+#include <Nazara/Renderer/RenderBuffer.hpp>
 #include <memory>
 #include <Nazara/Renderer/Debug.hpp>
 
 namespace Nz
 {
+<<<<<<< HEAD
 <<<<<<< HEAD
 	template<typename... Args>
 	RenderBufferRef RenderBuffer::New(Args&&... args)
@@ -22,6 +24,14 @@ namespace Nz
 	}
 =======
 >>>>>>> Vulkan/RenderBuffer: WIP
+=======
+	inline RenderBuffer::RenderBuffer(Buffer* parent, BufferType type) :
+	m_softwareBuffer(parent, type),
+	m_parent(parent),
+	m_type(type)
+	{
+	}
+>>>>>>> Add buffer support
 }
 
 #include <Nazara/Renderer/DebugOff.hpp>

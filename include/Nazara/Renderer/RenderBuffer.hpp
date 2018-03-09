@@ -12,6 +12,7 @@
 #define NAZARA_RENDERBUFFER_HPP
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <Nazara/Prerequisites.hpp>
 #include <Nazara/Core/ObjectLibrary.hpp>
 #include <Nazara/Core/ObjectRef.hpp>
@@ -72,32 +73,63 @@ namespace Nz
 			static RenderBufferLibrary::LibraryMap s_library;
 	};
 =======
+=======
+#include <Nazara/Core/MovablePtr.hpp>
+>>>>>>> Add buffer support
 #include <Nazara/Renderer/Config.hpp>
+#include <Nazara/Renderer/RenderDevice.hpp>
 #include <Nazara/Utility/AbstractBuffer.hpp>
 #include <Nazara/Utility/SoftwareBuffer.hpp>
+#include <memory>
+#include <unordered_map>
 
 namespace Nz
 {
+	class RenderDevice;
+
 	class NAZARA_RENDERER_API RenderBuffer : public AbstractBuffer
 	{
 		public:
-			RenderBuffer() = default;
+			inline RenderBuffer(Buffer* parent, BufferType type);
+			RenderBuffer(const RenderBuffer&) = delete;
+			RenderBuffer(RenderBuffer&&) = default;
 			~RenderBuffer() = default;
 
-			virtual bool Fill(const void* data, UInt32 offset, UInt32 size) = 0;
+			bool Fill(const void* data, UInt32 offset, UInt32 size) override final;
 
 			bool Initialize(UInt32 size, BufferUsageFlags usage) override;
 
+			AbstractBuffer* GetHardwareBuffer(RenderDevice* device);
 			DataStorage GetStorage() const override;
 
-			virtual void* Map(BufferAccess access, UInt32 offset = 0, UInt32 size = 0) = 0;
-			virtual bool Unmap() = 0;
+			void* Map(BufferAccess access, UInt32 offset = 0, UInt32 size = 0) override final;
+			bool Unmap() override final;
+
+			RenderBuffer& operator=(const RenderBuffer&) = delete;
+			RenderBuffer& operator=(RenderBuffer&&) = default;
+
+		public: //< temp
+			bool Synchronize(RenderDevice* device);
 
 		private:
+			struct HardwareBuffer
+			{
+				std::unique_ptr<AbstractBuffer> buffer;
+				bool synchronized = false;
+			};
+
+			BufferUsageFlags m_usage;
 			SoftwareBuffer m_softwareBuffer;
+			Buffer* m_parent;
+			BufferType m_type;
+			std::size_t m_size;
+			std::unordered_map<RenderDevice*, HardwareBuffer> m_hardwareBuffers;
 	};
+<<<<<<< HEAD
 
 >>>>>>> Vulkan/RenderBuffer: WIP
+=======
+>>>>>>> Add buffer support
 }
 
 #include <Nazara/Renderer/RenderBuffer.inl>
