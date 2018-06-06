@@ -31,6 +31,7 @@
 #include <Nazara/Utility/Utility.hpp>
 #include <Nazara/Utility/VertexBuffer.hpp>
 #include <Nazara/Utility/VertexDeclaration.hpp>
+#include <Nazara/Utility/UniformBuffer.hpp>
 #include <Nazara/Platform/Platform.hpp>
 <<<<<<< HEAD
 #include <map>
@@ -135,6 +136,22 @@ namespace Nz
 		#endif
 
 		glBeginConditionalRender(query.GetOpenGLID(), OpenGL::QueryCondition[condition]);
+	}
+
+	void Renderer::BindUniformBuffer(unsigned int bindingPoint, const UniformBuffer* uniformBuffer)
+	{
+		NazaraAssert(uniformBuffer && uniformBuffer->IsValid(), "Buffer must be valid");
+
+		const Nz::BufferRef& buffer = uniformBuffer->GetBuffer();
+		if (buffer->GetStorage() != DataStorage_Hardware)
+		{
+			NazaraError("Uniform buffer storage is not hardware");
+			return;
+		}
+
+		HardwareBuffer* hwBuffer = static_cast<HardwareBuffer*>(buffer->GetImpl());
+
+		glBindBufferRange(GL_UNIFORM_BUFFER, bindingPoint, hwBuffer->GetOpenGLID(), uniformBuffer->GetStartOffset(), uniformBuffer->GetEndOffset() - uniformBuffer->GetStartOffset());
 	}
 
 	void Renderer::Clear(UInt32 flags)
