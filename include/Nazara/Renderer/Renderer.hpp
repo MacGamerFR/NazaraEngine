@@ -21,6 +21,7 @@
 
 namespace Nz
 {
+<<<<<<< HEAD
 	class Color;
 	class Context;
 	class GpuQuery;
@@ -33,6 +34,10 @@ namespace Nz
 	class UniformBuffer;
 	class VertexBuffer;
 	class VertexDeclaration;
+=======
+	class AbstractBuffer;
+	class Buffer;
+>>>>>>> Merge branch 'ubo' into vulkan
 
 =======
 #include <Nazara/Prerequesites.hpp>
@@ -55,6 +60,7 @@ namespace Nz
 		public:
 			Renderer() = delete;
 			~Renderer() = delete;
+<<<<<<< HEAD
 <<<<<<< HEAD
 			
 			static inline RendererImpl* GetRendererImpl();
@@ -97,6 +103,10 @@ namespace Nz
 
 			static bool HasCapability(RendererCap capability);
 >>>>>>> Add support for Uniform Buffer to Utility/Renderer
+=======
+
+			static inline RendererImpl* GetRendererImpl();
+>>>>>>> Merge branch 'ubo' into vulkan
 
 			static bool Initialize();
 
