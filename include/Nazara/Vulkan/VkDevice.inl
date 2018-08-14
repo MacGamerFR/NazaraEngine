@@ -15,14 +15,7 @@ namespace Nz
 		inline Device::Device(Instance& instance) :
 		m_instance(instance),
 		m_device(VK_NULL_HANDLE),
-<<<<<<< HEAD
-<<<<<<< HEAD
 		m_physicalDevice(VK_NULL_HANDLE)
-=======
->>>>>>> Vulkan: Make device objects take a DeviceHandle at creation
-=======
-		m_physicalDevice(VK_NULL_HANDLE)
->>>>>>> Vulkan/Device: Add GetPhysicalDevice()
 		{
 		}
 
@@ -39,14 +32,7 @@ namespace Nz
 				vkDestroyDevice(m_device, (m_allocator.pfnAllocation) ? &m_allocator : nullptr);
 
 				m_device = VK_NULL_HANDLE;
-<<<<<<< HEAD
-<<<<<<< HEAD
 				m_physicalDevice = VK_NULL_HANDLE;
-=======
->>>>>>> Vulkan: Make device objects take a DeviceHandle at creation
-=======
-				m_physicalDevice = VK_NULL_HANDLE;
->>>>>>> Vulkan/Device: Add GetPhysicalDevice()
 			}
 		}
 
@@ -66,12 +52,8 @@ namespace Nz
 		{
 			VkQueue queue;
 			vkGetDeviceQueue(m_device, queueFamilyIndex, queueIndex, &queue);
-			
-<<<<<<< HEAD
-			return Queue(DeviceHandle(this), queue);
-=======
+
 			return Queue(CreateHandle(), queue);
->>>>>>> Vulkan: Make device objects take a DeviceHandle at creation
 		}
 
 		inline Instance& Device::GetInstance()
@@ -126,7 +108,7 @@ namespace Nz
 			PFN_vkVoidFunction func = m_instance.GetDeviceProcAddr(m_device, name);
 			if (!func)
 				NazaraError("Failed to get " + String(name) + " address");
-			
+
 			return func;
 		}
 	}
